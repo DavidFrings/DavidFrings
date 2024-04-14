@@ -1,9 +1,9 @@
 # _How did you find me?_ 
 ## <br> Welcome to the profile from David Frings
 <div>
-  <img alt="GitHub followers" src="https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=followers" height="27px" width="auto">
-  <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto">
-  <img alt="Twitch Status" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto">
+  <a href="https://github.com/DavidFrings?tab=followers"><img alt="GitHub followers" src="https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=followers" height="27px" width="auto"></a>
+  <a href="https://github.com/DavidFrings?tab=repositories"><img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto"></a>
+  <a href="https://www.twitch.tv/devopsdavid"><img alt="Twitch Status" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto"></a>
 </div>
 
 I started coding when I was 10 years old in 2018, now I am a 16 year old student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
