@@ -1,7 +1,7 @@
-![GitHub followers](https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23238636)
-![GitHub User's stars](https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23238636)
+[![GitHub followers](https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23238636)](https://www.twitch.tv/devopsdavid)
+[![GitHub User's stars](https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23238636)](https://www.twitch.tv/devopsdavid)
 
-![Twitch Status](https://img.shields.io/twitch/status/DavTheDev99?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https%3A%2F%2Fwww.twitch.tv%2Fdevopsdavid)
+[![Twitch Status](https://img.shields.io/twitch/status/DavTheDev99?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5)](https://www.twitch.tv/devopsdavid)
 
 
 
