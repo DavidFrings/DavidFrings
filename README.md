@@ -1,24 +1,16 @@
 # _How did you find me?_ 
 ## <br> Welcome to the profile from David Frings
-<!--
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
-
 <div>
   <img alt="GitHub followers" src="https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=followers" height="27px" width="auto">
   <img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto">
-  <img alt="Twitch Status" src="https://img.shields.io/twitch/status/DavTheDev99?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto">
+  <img alt="Twitch Status" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto">
 </div>
 
-## 🧑‍💻 What I can:
-### Programming languages:
+I started coding when I was 10 years old in 2018, now I am a 16 year old student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
+My first language that I learned was Java.
+
+# What I can:
+## 🧑‍💻 Programming languages:
 <div>
   <img alt="Static Badge" src="https://img.shields.io/badge/HTML-%23E34F26?style=flat&logo=html5&logoColor=%23FFFFFF" height="27px" width="auto">
   <img alt="Static Badge" src="https://img.shields.io/badge/CSS-%231572B6?style=flat&logo=css3&logoColor=%23FFFFFF" height="27px" width="auto">
@@ -34,12 +26,12 @@
   <img alt="Static Badge" src="https://img.shields.io/badge/Scratch-%234D97FF?style=flat&logo=scratch&logoColor=%23FFFFFF" height="27px" width="auto">
 </div>
 
-### Frameworks and libraries
+## 🧰 Frameworks and libraries
 <div>
-  
+  Electron, Expressjs, React, Vue.js, Handelbars (MERN Stack)
 </div>
 
-### Operating systems
+## 💻 My most used Operating systems / Host Applications
 <div>
-  
+  Windows Ubuntu, Kali, Docker
 </div>
