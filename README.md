@@ -6,6 +6,12 @@
   <a href="https://www.twitch.tv/devopsdavid"><img alt="Twitch Status" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto"></a>
 </div>
 
+I began coding at the age of 10 in 2018, and now, at 16, I'm a student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
+My first programming language was Java, because i wanted a simple Minecraft Plugin for the server with my friends. <br>
+Because of this Server I also started to learn bash, and began expierience Linux (Ubuntu), so that we can save some money by hosting the server on my own Raspberry Pi.
+After Java and Bash I started to develop some simple HTML & CSS Websites. But that wasn't enaught for me, so I started to learn JavaScript and many Frameworks & Libarys as list down.
+My newest Lanuage that I learned was Python for the First Lego League, so that I can program the HUB.
+
 I started coding when I was 10 years old in 2018, now I am a 16 year old student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
 My first language that I learned was Java.
 
