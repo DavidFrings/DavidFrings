@@ -1,7 +1,6 @@
 # _How did you find me?_ 
 <div>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-German-%23FF3D3D?style=flat&labelColor=%233C3C3C"></a>
-#
 </div>
 ## <br> Welcome to the profile from David Frings
 <div>
