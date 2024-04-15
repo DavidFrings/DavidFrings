@@ -7,13 +7,23 @@
 ## Welcome to the profile from David Frings
 <div>
   <a href="https://github.com/DavidFrings?tab=followers"><img alt="GitHub followers" src="https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=followers" height="27px" width="auto"></a>
-  <a href="https://github.com/DavidFrings?tab=repositories"><img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto"></a>
-  <a href="https://www.twitch.tv/devopsdavid"><img alt="Twitch Status" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto"></a>
+  <a href="https://github.com/DavidFrings?tab=repositories"><img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto"></a> <br>
 </div>
 
 I started coding when I was 10 in 2018. Now I'm 16 and a student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
 I began with Java because I wanted to make a simple Minecraft plugin for my server with some friends. That got me into learning bash and using Linux (Ubuntu) to save money by hosting the server on my own Raspberry Pi. <br> <br>
 After Java and bash, I tried my hand at making simple websites using HTML & CSS. But that wasn't enough for me, so I learned JavaScript and lots of frameworks & libraries. Recently, I picked up Python for the First Lego League, so I can program the HUB.
+
+## Socials:
+<div>
+  <a href="www.linkedin.com/in/david-frings-162162304"><img alt="Static Badge" src="https://img.shields.io/badge/LinkedIn-%230A66C2?style=flat&logo=linkedin&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href="https://www.twitch.tv/devopsdavid"><img alt="Twitch Status" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto"></a>
+  <a href="https://www.youtube.com/channel/UCSGTYuZDRFd1NMiVaH5Hqzw"><img alt="Static Badge" src="https://img.shields.io/badge/YouTube-%23FF0000?style=flat&logo=youtube&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href="https://discordapp.com/users/717367958212444261"><img alt="Static Badge" src="https://img.shields.io/badge/Discord-%235865F2?style=flat&logo=discord&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href="https://twitter.com/DevOpsDavid"><img alt="Static Badge" src="https://img.shields.io/badge/Twitter-%23000000?style=flat&logo=x&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href="https://www.instagram.com/devopsdavid/"><img alt="Static Badge" src="https://img.shields.io/badge/Instagram-%23E4405F?style=flat&logo=instagram&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href="https://www.reddit.com/user/Cooler_Typ99/"><img alt="Static Badge" src="https://img.shields.io/badge/Reddit-%23FF4500?style=flat&logo=reddit&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+</div>
 
 # What I can:
 ## 🧑‍💻 Programming languages:
@@ -51,3 +61,18 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
 </div>
 
 ## Editors / Tools
+nodepad++ 
+VS code,
+Jetbrains
+  Webstorm
+  InteliJ
+  PyCharm
+Atom
+
+## 3D Druck
+<div>
+  <img alt="Static Badge" src="https://img.shields.io/badge/Anycubic-%23476695?style=flat&logo=anycubic&logoColor=%23FFFFFF">
+  Ultimaker
+  Solidworks
+  Fusion 360
+</div>
