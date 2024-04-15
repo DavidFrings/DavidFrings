@@ -28,10 +28,12 @@ My first language that I learned was Java.
 
 ## 🧰 Frameworks and libraries
 <div>
-  <img alt="Static Badge" src="https://img.shields.io/badge/React-%2361DAFB?style=flat&logo=react&logoColor=%23000000">
-  <img alt="Static Badge" src="https://img.shields.io/badge/Express.js-%23000000?style=flat&logo=express&logoColor=%23FFFFFF">
-  <img alt="Static Badge" src="https://img.shields.io/badge/MERN%20Stack-%2347A248?style=flat&logo=react&logoColor=%23FFFFFF">
-  Electron, Expressjs, React, Vue.js, Handelbars (MERN Stack)
+  <img alt="Static Badge" src="https://img.shields.io/badge/React-%2361DAFB?style=flat&logo=react&logoColor=%23000000" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Express.js-%23000000?style=flat&logo=express&logoColor=%23FFFFFF" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/MERN%20Stack-%2347A248?style=flat&logo=react&logoColor=%23FFFFFF" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Vue.js-%234FC08D?style=flat&logo=vuedotjs&logoColor=%23FFFFFF" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Handlebars.js-%23000000?style=flat&logo=handlebarsdotjs&logoColor=%23FFFFFF" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Electron-%2347848F?style=flat&logo=electron&logoColor=%23FFFFFF" height="27px" width="auto">
 </div>
 
 ## 💻 My most used Operating systems / Host Applications
