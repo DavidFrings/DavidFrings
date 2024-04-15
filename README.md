@@ -32,7 +32,7 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Scratch-%234D97FF?style=flat&logo=scratch&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
 
-## 🧰 Frameworks and libraries
+## 🧰 Frameworks and libraries:
 <div>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/React-%2361DAFB?style=flat&logo=react&logoColor=%23000000" height="27px" width="auto"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Express.js-%23000000?style=flat&logo=express&logoColor=%23FFFFFF" height="27px" width="auto"></a>
@@ -42,10 +42,12 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Electron-%2347848F?style=flat&logo=electron&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
 
-## 💻 My most used Operating systems / Host Applications
+## 💻 My most used Operating systems / Host Applications:
 <div>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Windows-%230078D4?style=flat&logo=windows&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Ubuntu-%23E95420?style=flat&logo=ubuntu&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Kali%20Linux-%23557C94?style=flat&logo=kalilinux&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Docker-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
+
+## Editors / Tools
