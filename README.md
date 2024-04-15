@@ -1,8 +1,10 @@
 # _How did you find me?_ 
 <div>
+  <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-Englisch-%23FF3D3D?style=flat&labelColor=%233C3C3C"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-German-%23FF3D3D?style=flat&labelColor=%233C3C3C"></a>
 </div>
-## <br> Welcome to the profile from David Frings
+
+## Welcome to the profile from David Frings
 <div>
   <a href="https://github.com/DavidFrings?tab=followers"><img alt="GitHub followers" src="https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=followers" height="27px" width="auto"></a>
   <a href="https://github.com/DavidFrings?tab=repositories"><img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto"></a>
