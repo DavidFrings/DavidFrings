@@ -38,5 +38,8 @@ My first language that I learned was Java.
 
 ## 💻 My most used Operating systems / Host Applications
 <div>
-  Windows Ubuntu, Kali, Docker
+  <img alt="Static Badge" src="https://img.shields.io/badge/Windows-%230078D4?style=flat&logo=windows&logoColor=%23FFFFFF" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Ubuntu-%23E95420?style=flat&logo=ubuntu&logoColor=%23FFFFFF" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Kali%20Linux-%23557C94?style=flat&logo=kalilinux&logoColor=%23FFFFFF" height="27px" width="auto">
+  <img alt="Static Badge" src="https://img.shields.io/badge/Docker-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto">
 </div>
