@@ -28,6 +28,7 @@ My first language that I learned was Java.
 
 ## 🧰 Frameworks and libraries
 <div>
+  <img alt="Static Badge" src="https://img.shields.io/badge/React-%2361DAFB?style=flat&logo=react&logoColor=%23000000">
   Electron, Expressjs, React, Vue.js, Handelbars (MERN Stack)
 </div>
 
