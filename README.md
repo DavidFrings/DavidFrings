@@ -1,6 +1,6 @@
 # _How did you find me?_ 
 <div>
-  <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-Englisch-%23FF3D3D?style=flat&labelColor=%233C3C3C"></a>
+  <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-Englisch-%23FFFF5E?style=flat&labelColor=%233C3C3C"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-German-%23FF3D3D?style=flat&labelColor=%233C3C3C"></a>
 </div>
 
@@ -38,7 +38,7 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Express.js-%23000000?style=flat&logo=express&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/MERN%20Stack-%2347A248?style=flat&logo=react&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Vue.js-%234FC08D?style=flat&logo=vuedotjs&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Handlebars.js-%23000000?style=flat&logo=handlebarsdotjs&logoColor=%23FFFFFF" height="27px" wi<a href="">dth="auto"></a>
+  <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Handlebars.js-%23000000?style=flat&logo=handlebarsdotjs&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Static Badge" src="https://img.shields.io/badge/Electron-%2347848F?style=flat&logo=electron&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
 
