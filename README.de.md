@@ -15,8 +15,8 @@ Ich habe angefangen zu programmieren, als ich 10 Jahre alt war, im Jahr 2018. Je
 Ich begann mit Java, weil ich ein einfaches Minecraft-Plugin für meinen Server mit Freunden erstellen wollte. Das hat mich schließlich dazu gebracht, Bash zu lernen und Linux (Ubuntu) zu verwenden, um Geld zu sparen, indem ich den Server auf meinem eigenen Raspberry Pi gehostet habe. <br> <br>
 Nach Java und Bash habe ich versucht, einfache Websites mit HTML & CSS zu erstellen. Aber das reichte mir nicht, also habe ich JavaScript und viele Frameworks & Bibliotheken gelernt. Vor kurzem habe ich Python für die First Lego League aufgegriffen, damit ich den HUB programmieren kann.
 
-# What I can:
-## 🧑‍💻 Programming languages:
+# Was ich kann:
+## 🧑‍💻 Programmiersprachen:
 <div>
   <img alt="Static Badge" src="https://img.shields.io/badge/HTML-%23E34F26?style=flat&logo=html5&logoColor=%23FFFFFF" height="27px" width="auto">
   <img alt="Static Badge" src="https://img.shields.io/badge/CSS-%231572B6?style=flat&logo=css3&logoColor=%23FFFFFF" height="27px" width="auto">
@@ -32,7 +32,7 @@ Nach Java und Bash habe ich versucht, einfache Websites mit HTML & CSS zu erstel
   <img alt="Static Badge" src="https://img.shields.io/badge/Scratch-%234D97FF?style=flat&logo=scratch&logoColor=%23FFFFFF" height="27px" width="auto">
 </div>
 
-## 🧰 Frameworks and libraries
+## 🧰 Frameworks und Bibliotheken:
 <div>
   <img alt="Static Badge" src="https://img.shields.io/badge/React-%2361DAFB?style=flat&logo=react&logoColor=%23000000" height="27px" width="auto">
   <img alt="Static Badge" src="https://img.shields.io/badge/Express.js-%23000000?style=flat&logo=express&logoColor=%23FFFFFF" height="27px" width="auto">
@@ -42,10 +42,12 @@ Nach Java und Bash habe ich versucht, einfache Websites mit HTML & CSS zu erstel
   <img alt="Static Badge" src="https://img.shields.io/badge/Electron-%2347848F?style=flat&logo=electron&logoColor=%23FFFFFF" height="27px" width="auto">
 </div>
 
-## 💻 My most used Operating systems / Host Applications
+## 💻 Meine am häufigsten verwendeten Betriebssysteme / Host-Anwendungen:
 <div>
   <img alt="Static Badge" src="https://img.shields.io/badge/Windows-%230078D4?style=flat&logo=windows&logoColor=%23FFFFFF" height="27px" width="auto">
   <img alt="Static Badge" src="https://img.shields.io/badge/Ubuntu-%23E95420?style=flat&logo=ubuntu&logoColor=%23FFFFFF" height="27px" width="auto">
   <img alt="Static Badge" src="https://img.shields.io/badge/Kali%20Linux-%23557C94?style=flat&logo=kalilinux&logoColor=%23FFFFFF" height="27px" width="auto">
   <img alt="Static Badge" src="https://img.shields.io/badge/Docker-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto">
 </div>
+
+## Editors / Tools
