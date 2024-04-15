@@ -1,19 +1,19 @@
-# _How did you find me?_ 
+# _Wie hast du mich gefunden?_ 
 <div>
   <a href="https://github.com/DavidFrings/DavidFrings/blob/main/README.md"><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-Englisch-%23FFFF5E?style=flat&labelColor=%233C3C3C"></a>
   <a href="https://github.com/DavidFrings/DavidFrings/blob/main/README.de.md"><img alt="Static Badge" src="https://img.shields.io/badge/Lang%3A-German-%23FF3D3D?style=flat&labelColor=%233C3C3C"></a>
 </div>
 
-## Welcome to the profile from David Frings
+## Willkommen auf dem Profil von David Frings
 <div>
   <a href="https://github.com/DavidFrings?tab=followers"><img alt="GitHub followers" src="https://img.shields.io/github/followers/DavidFrings?style=flat&logo=Github&label=Followers%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=followers" height="27px" width="auto"></a>
   <a href="https://github.com/DavidFrings?tab=repositories"><img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto"></a>
   <a href="https://www.twitch.tv/devopsdavid"><img alt="Twitch Status" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto"></a>
 </div>
 
-I started coding when I was 10 in 2018. Now I'm 16 and a student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
-I began with Java because I wanted to make a simple Minecraft plugin for my server with some friends. That got me into learning bash and using Linux (Ubuntu) to save money by hosting the server on my own Raspberry Pi. <br> <br>
-After Java and bash, I tried my hand at making simple websites using HTML & CSS. But that wasn't enough for me, so I learned JavaScript and lots of frameworks & libraries. Recently, I picked up Python for the First Lego League, so I can program the HUB.
+Ich habe angefangen zu programmieren, als ich 10 Jahre alt war, im Jahr 2018. Jetzt bin ich 16 und ein Schüler aus Deutschland <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
+Ich begann mit Java, weil ich ein einfaches Minecraft-Plugin für meinen Server mit Freunden erstellen wollte. Das hat mich schließlich dazu gebracht, Bash zu lernen und Linux (Ubuntu) zu verwenden, um Geld zu sparen, indem ich den Server auf meinem eigenen Raspberry Pi gehostet habe. <br> <br>
+Nach Java und Bash habe ich versucht, einfache Websites mit HTML & CSS zu erstellen. Aber das reichte mir nicht, also habe ich JavaScript und viele Frameworks & Bibliotheken gelernt. Vor kurzem habe ich Python für die First Lego League aufgegriffen, damit ich den HUB programmieren kann.
 
 # What I can:
 ## 🧑‍💻 Programming languages:
