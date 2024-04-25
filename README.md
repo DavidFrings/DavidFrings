@@ -38,7 +38,7 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
   <a href=""><img alt="PowerShell" src="https://img.shields.io/badge/Powershell-%235391FE?style=flat&logo=powershell&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Markdown" src="https://img.shields.io/badge/Markdown-%23000000?style=flat&logo=markdown&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="SQL" src="https://img.shields.io/badge/SQL-%234479A1?style=flat&logo=mysql&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="Git" src="https://img.shields.io/badge/Git-%232496ED?style=flat&logo=git&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="Git" src="https://img.shields.io/badge/Git-%23F05032?style=flat&logo=git&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="SVG" src="https://img.shields.io/badge/SVG-%23FFB13B?style=flat&logo=svg&logoColor=%23000000" height="27px" width="auto"></a>
   <a href=""><img alt="Scratch" src="https://img.shields.io/badge/Scratch-%234D97FF?style=flat&logo=scratch&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
@@ -63,18 +63,17 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
 
 ## Editors / Tools
 <div>
-  <a href=""><img alt="NotePad ++" src="https://img.shields.io/badge/NotePad%20++-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="VS Code" src="https://img.shields.io/badge/VS%20Code-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="Webstom" src="https://img.shields.io/badge/Webstorm-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="InteliJ" src="https://img.shields.io/badge/InteliJ-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="PyCharm" src="https://img.shields.io/badge/PyCharm-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="Atom" src="https://img.shields.io/badge/Atom-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="Notepad ++" src="https://img.shields.io/badge/Notepad%20++-%2390E59A?style=flat&logo=notepadplusplus&logoColor=%23000000" height="27px" width="auto"></a>
+  <a href=""><img alt="VS Code" src="https://img.shields.io/badge/VS%20Code-%23007ACC?style=flat&logo=visualstudiocode&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="Webstom" src="https://img.shields.io/badge/Webstorm-%23000000?style=flat&logo=webstorm&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="IntelliJ" src="https://img.shields.io/badge/IntelliJ-%23000000?style=flat&logo=intellijidea&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="PyCharm" src="https://img.shields.io/badge/PyCharm-%23000000?style=flat&logo=pycharm&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
 
 ## 3D Modeling
 <div>
   <a href=""><img alt="Anycubic" src="https://img.shields.io/badge/Anycubic-%23476695?style=flat&logo=anycubic&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="Ultimaker" src="https://img.shields.io/badge/Ultimaker-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="Solidworks" src="https://img.shields.io/badge/Solidworks-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
-  <a href=""><img alt="Fusion 360" src="https://img.shields.io/badge/Fusion%20360-%232496ED?style=flat&logo=docker&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="Ultimaker" src="https://img.shields.io/badge/Ultimaker-%23000000?style=flat&logo=adblock&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="Solidworks" src="https://img.shields.io/badge/Solidworks-%23005386?style=flat&logo=dassaultsystemes&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href=""><img alt="Fusion 360" src="https://img.shields.io/badge/Fusion%20360-%23000000?style=flat&logo=adblock&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
