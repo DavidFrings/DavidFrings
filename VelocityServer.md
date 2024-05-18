@@ -13,7 +13,7 @@ mkdir /mnt/Festplatte/Server/Minecraft/Server9-Velocity/ && mkdir /mnt/Festplatt
 ````
 
 ````bash
-nano /home/server/games/minecraft.sh
+nano /home/server/minecraft.sh
 ````
 
 Insert:
