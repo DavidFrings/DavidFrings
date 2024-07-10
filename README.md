@@ -16,7 +16,7 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
 
 ## Socials:
 <div>
-  <a href="https://www.linkedin.com/in/david-frings-162162304"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-%230A66C2?style=flat&logo=linkedin&logoColor=%23FFFFFF" height="27px" width="auto"></a>
+  <a href="https://www.linkedin.com/in/davidfrings99/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-%230A66C2?style=flat&logo=linkedin&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href="https://www.twitch.tv/devopsdavid"><img alt="Twitch" src="https://img.shields.io/twitch/status/DevOpsDavid?style=flat&logo=Twitch&logoColor=%23FFFFFF&label=Twitch%3A&labelColor=%235C16C5&link=https://www.twitch.tv/devopsdavid" height="27px" width="auto"></a>
   <a href="https://www.youtube.com/channel/UCSGTYuZDRFd1NMiVaH5Hqzw"><img alt="Youtube" src="https://img.shields.io/badge/YouTube-%23FF0000?style=flat&logo=youtube&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href="https://discordapp.com/users/717367958212444261"><img alt="Discord" src="https://img.shields.io/badge/Discord-%235865F2?style=flat&logo=discord&logoColor=%23FFFFFF" height="27px" width="auto"></a>
