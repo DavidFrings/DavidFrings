@@ -77,3 +77,5 @@ After Java and bash, I tried my hand at making simple websites using HTML & CSS.
   <a href=""><img alt="Solidworks" src="https://img.shields.io/badge/Solidworks-%23005386?style=flat&logo=dassaultsystemes&logoColor=%23FFFFFF" height="27px" width="auto"></a>
   <a href=""><img alt="Fusion 360" src="https://img.shields.io/badge/Fusion%20360-%23000000?style=flat&logo=adblock&logoColor=%23FFFFFF" height="27px" width="auto"></a>
 </div>
+
+<p>README.md inspirated by <a href="https://github.com/MaxAtslega">Max Atslega</p>
