@@ -10,7 +10,7 @@
   <a href="https://github.com/DavidFrings?tab=repositories"><img alt="GitHub User's stars" src="https://img.shields.io/github/stars/DavidFrings?style=flat&logo=Github&label=Stars%3A&labelColor=%23000000&color=%23000000&link=https://github.com/DavidFrings?tab=repositories" height="27px" width="auto"></a> <br>
 </div>
 
-I started coding when I was 10 in 2018. Now I'm 16 and a student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
+I started coding when I was 10 in 2018. Now I'm a 16 year old student from Germany <img alt="Flag of Germany" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg" height="12px" width="auto">. <br>
 I began with Java because I wanted to make a simple Minecraft plugin for my server with some friends. That got me into learning bash and using Linux (Ubuntu) to save money by hosting the server on my own Raspberry Pi. <br> <br>
 After Java and bash, I tried my hand at making simple websites using HTML & CSS. But that wasn't enough for me, so I learned JavaScript and lots of frameworks & libraries. Recently, I picked up Python for the First Lego League, so I can program the HUB.
 
