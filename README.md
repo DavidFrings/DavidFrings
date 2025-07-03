@@ -24,5 +24,5 @@
 > I am still learning!
 
 <div align="center">
-  If you want to learn more about me look at my website: <a href="DavidFrings.dev">DavidFrings.dev</a> (Cooming Soon...)
+  If you want to learn more about me look at my website: <a href="https://DavidFrings.dev">DavidFrings.dev</a> (Cooming Soon...)
 </div>
