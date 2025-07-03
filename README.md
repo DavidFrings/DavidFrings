@@ -6,6 +6,9 @@
     <a href="https://github.com/DavidFrings/DavidFrings/blob/main/README.de.md"><img alt="Language selection (German)" src="https://img.shields.io/badge/Lang%3A-German-%23FF3D3D?style=flat&labelColor=%233C3C3C"></a>
   </div> -->
 
+  <div>
+    <a href=""><img alt="Emote lol" src="https://cdn.7tv.app/emote/01JYCH1XKXQYXCKA7X3PC29KEF/4x.avif"></a>
+  </div>
 
 ## Welcome to the my life
 
