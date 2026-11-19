@@ -38,6 +38,7 @@ jobs:
         env:
           # A token with read:user includes private contributions; GITHUB_TOKEN only sees public ones.
           GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: python scripts/profile_cards.py fetch
 
       - name: Render cards
@@ -49,12 +50,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/github.json cards README.md
+          git add data/profile.json cards README.md
           if git diff --cached --quiet; then
             echo "Cards are up to date"
             exit 0
           fi
           git commit -m "chore(cards): refresh profile cards"
-          # Another workflow (WakaTime) may have pushed in the meantime
+          # Something else may have been pushed to the branch in the meantime
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"

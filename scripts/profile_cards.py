@@ -7,15 +7,16 @@ are subset with pyftsubset and embedded as base64 WOFF data URIs. No scripts, no
 external requests.
 
 Usage:
-    python scripts/profile_cards.py fetch            # refresh data/github.json (needs GH_TOKEN)
+    python scripts/profile_cards.py fetch            # refresh data/profile.json
     python scripts/profile_cards.py render           # write cards/*.svg + README card block
     STATIC=1 python scripts/profile_cards.py render  # final frame only -> preview/ (for screenshots)
 
 Environment:
-    GH_TOKEN       token for `fetch` (read:user scope to include private contributions)
-    PROFILE_EMAIL  address shown on the email tile
-    STATIC=1       render the final frame without any animation
-    OUT_DIR        override the output directory
+    GH_TOKEN          token for `fetch` (read:user scope to include private contributions)
+    WAKATIME_API_KEY  optional; without it the public WakaTime endpoints are used
+    PROFILE_EMAIL     address shown on the email tile
+    STATIC=1          render the final frame without any animation
+    OUT_DIR           override the output directory
 
 Requirements: Python 3.11+, fonttools (pip install fonttools).
 """
@@ -32,6 +33,8 @@ import subprocess
 import sys
 import tempfile
 import textwrap
+import time
+import urllib.error
 import urllib.request
 from collections import defaultdict
 from pathlib import Path
@@ -42,7 +45,7 @@ from xml.sax.saxutils import escape
 # --------------------------------------------------------------------------------------
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA_FILE = ROOT / "data" / "github.json"
+DATA_FILE = ROOT / "data" / "profile.json"
 FONT_DIR = ROOT / "assets" / "fonts"
 README = ROOT / "README.md"
 README_START = "<!--START_SECTION:cards-->"
@@ -52,7 +55,11 @@ PROFILE = {
     "login": "DavidFrings",
     "first_name": "David",
     "last_name": "Frings",
-    "tagline": "CS student at Hochschule München · Rust, embedded systems & homelab",
+    # One entry per line: (text, css class). "dim" = muted white, "g" = brand green.
+    "tagline": [
+        ("Computer Science Student @ University of Applied Sciences Munich", "dim"),
+        ("Rust · Embedded · DevOps", "g"),
+    ],
     "status": "Hello, world",
     # Optional portrait, path relative to the repo root (jpg/png/webp), e.g. "assets/portrait.jpg".
     "portrait": None,
@@ -74,7 +81,7 @@ def tiles() -> list[dict]:
     return [
         {"slug": "website", "label": "Website", "value": "davidfrings.dev",
          "href": "https://davidfrings.dev", "icon": "globe"},
-        {"slug": "linkedin", "label": "LinkedIn", "value": "in/davidfrings-dev",
+        {"slug": "linkedin", "label": "LinkedIn", "value": "davidfrings-dev",
          "href": "https://www.linkedin.com/in/davidfrings-dev/", "icon": "profile"},
         {"slug": "email", "label": "Email", "value": email, "href": f"mailto:{email}", "icon": "mail"},
     ]
@@ -87,11 +94,14 @@ REPO_FALLBACK_DESCRIPTIONS = {
     "DavidFrings/PaRaMeRoS": "Vue 3 + Vite PWA frontend with a Rust / Actix-Web and PostgreSQL (Diesel) backend.",
 }
 
+WAKATIME_USER_ID = "f2ca40d4-dfbb-4764-9e49-8c1a7f94b14a"
+WAKATIME_PROFILE = f"https://wakatime.com/@{WAKATIME_USER_ID}"
+
 # Brand colours, taken from davidfrings.dev
 GREEN = "#00C86F"
-BG = "#060E09"
 BG2 = "#0D1A12"
 WHITE = "#E8F5EE"
+SHADES = [1, .7, .48, .32, .2, .12]  # fill-opacity steps of GREEN for language bars
 
 FONTS = {400: "JetBrainsMono-Regular.ttf", 700: "JetBrainsMono-Bold.ttf", 800: "JetBrainsMono-ExtraBold.ttf"}
 ADVANCE = 0.6  # JetBrains Mono advance width in em (600 / 1000 units)
@@ -114,13 +124,6 @@ def mono_width(s: str, size: float, spacing: float = 0.0) -> float:
     return len(s) * (ADVANCE * size + spacing) - spacing
 
 
-def blend(fg: str, bg: str, alpha: float) -> str:
-    """Alpha-blend two hex colours into a solid hex colour."""
-    f = [int(fg[i:i + 2], 16) for i in (1, 3, 5)]
-    b = [int(bg[i:i + 2], 16) for i in (1, 3, 5)]
-    return "#" + "".join(f"{round(fc * alpha + bc * (1 - alpha)):02X}" for fc, bc in zip(f, b))
-
-
 def fmt(n: float) -> str:
     """Compact number formatting for SVG coordinates."""
     return f"{n:.2f}".rstrip("0").rstrip(".") if isinstance(n, float) else str(n)
@@ -128,6 +131,21 @@ def fmt(n: float) -> str:
 
 def plural(n: int, word: str) -> str:
     return f"{n:,} {word}" if n == 1 else f"{n:,} {word}s"
+
+
+def duration(seconds: float) -> str:
+    """Human-readable coding time: '383 h', '3 h 45 m', '12 m'."""
+    minutes = int(round(seconds / 60))
+    h, m = divmod(minutes, 60)
+    if h >= 100:
+        return f"{h:,} h"
+    if h:
+        return f"{h} h {m} m" if m else f"{h} h"
+    return f"{m} m"
+
+
+def short_date(d: dt.date, year: bool = False) -> str:
+    return f"{d.day} {MONTHS[d.month - 1]}" + (f" {d.year}" if year else "")
 
 
 def parse_date(s: str) -> dt.date:
@@ -196,7 +214,6 @@ ANIMATION_CSS = """
 .s{display:none}
 .dr{stroke-dasharray:1}
 .fb{transform-box:fill-box;transform-origin:0 50%}
-.fc{transform-box:fill-box;transform-origin:50% 50%}
 @keyframes fu{from{opacity:0;transform:translateY(10px)}}
 @keyframes fi{from{opacity:0}}
 @keyframes dr{from{stroke-dashoffset:1}}
@@ -204,7 +221,6 @@ ANIMATION_CSS = """
 @keyframes bl{50%{opacity:.2}}
 @keyframes cb{50%{opacity:0}}
 @keyframes gx{from{transform:scaleX(0)}}
-@keyframes pop{from{opacity:0;transform:scale(.2)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}.m{display:none}.s{display:inline}}
 """
 
@@ -299,6 +315,57 @@ class Card:
         self.add(f'<path class="br dr" pathLength="1" d="M1 17V1H17" style="{draw}"/>')
         self.add(f'<path class="br dr" pathLength="1" d="M{w - 1} {h - 17}V{h - 1}H{w - 17}" style="{draw}"/>')
 
+    def header(self, title: str, subtitle: str, right: str = "") -> None:
+        """'TITLE / subtitle' in the top-left corner, optional label on the right."""
+        style = self.anim("fu", .1, .6)
+        self.add(self.label(32, 44, title, cls="g", style=style)
+                 + self.label(32 + mono_width(title.upper() + " ", 10, 2) + 2, 44, f"/ {subtitle}", style=style))
+        if right:
+            self.add(self.label(self.width - 32, 44, right, anchor="end", style=self.anim("fi", .2, .6)))
+
+    def stat_row(self, blocks: list[tuple[str, str, str]], local: float = .2) -> None:
+        """Row of label / big value / caption blocks separated by thin rules (y 70-140)."""
+        col_w = (self.width - 64) / len(blocks)
+        for i, (label, value, sub) in enumerate(blocks):
+            x = 32 + i * col_w
+            d = local + i * .1
+            if i:
+                self.add(f'<path class="ln dr" pathLength="1" d="M{fmt(x - 16)} 70V140" '
+                         f'style="{self.anim("dr", d, .5)}"/>')
+            size = 28 if mono_width(value, 28, -.5) <= col_w - 24 else 22
+            self.add(self.label(x, 82, label, style=self.anim("fu", d, .6))
+                     + self.text(x, 118, value, size=size, weight=800, cls="g" if i == 0 else "w", spacing=-.5,
+                                 style=self.anim("fu", d + .05, .6))
+                     + self.text(x, 140, sub, size=11, cls="mu", style=self.anim("fu", d + .1, .6)))
+
+    def language_bar(self, shares: list[tuple[str, float]], y_bar: float, y_legend: float,
+                     local: float, right_text: str = "") -> None:
+        """Stacked bar in shades of the brand green, with a legend underneath."""
+        bar_x, bar_w = 32, self.width - 64
+        seg_x, segments = bar_x, []
+        for i, (_, share) in enumerate(shares):
+            seg_w = bar_w * share
+            gap = 2 if i < len(shares) - 1 else 0
+            segments.append(f'<rect x="{fmt(seg_x)}" y="{fmt(y_bar)}" width="{fmt(max(seg_w - gap, 1))}" '
+                            f'height="6" fill="{GREEN}" fill-opacity="{SHADES[i]}"/>')
+            seg_x += seg_w
+        self.add(f'<rect x="{bar_x}" y="{fmt(y_bar)}" width="{bar_w}" height="6" fill="{WHITE}" fill-opacity=".05" '
+                 f'style="{self.anim("fi", local - .15, .5)}"/>'
+                 f'<g class="fb" style="{self.anim("gx", local, 1.1, "cubic-bezier(.6,0,.2,1)")}">'
+                 f'{"".join(segments)}</g>')
+        lx = 32
+        for i, (lang, share) in enumerate(shares):
+            pct = f"{share * 100:.1f}%"
+            self.add(f'<g style="{self.anim("fi", local + .35 + i * .08, .5)}">'
+                     f'<rect x="{fmt(lx)}" y="{fmt(y_legend - 8)}" width="8" height="8" fill="{GREEN}" '
+                     f'fill-opacity="{SHADES[i]}"/>'
+                     + self.text(lx + 14, y_legend, lang, size=11, cls="dim")
+                     + self.text(lx + 14 + mono_width(lang + " ", 11), y_legend, pct, size=11, cls="mu") + "</g>")
+            lx += 14 + mono_width(f"{lang} {pct}", 11) + 22
+        if right_text:
+            self.add(self.text(self.width - 32, y_legend, right_text, size=11, cls="mu", anchor="end",
+                               style=self.anim("fi", local + .55, .5)))
+
     # -- output -------------------------------------------------------------------------
 
     def render(self, title: str, desc: str) -> str:
@@ -316,6 +383,19 @@ class Card:
             f'<title id="title">{escape(title)}</title><desc id="desc">{escape(desc)}</desc>'
             f"<style>{css}</style>{defs}\n" + "\n".join(self.parts) + "\n</svg>\n"
         )
+
+
+def top_shares(items: list[tuple[str, float]], limit: int = 5, total: float | None = None) -> list[tuple[str, float]]:
+    """Turn (name, weight) pairs into shares, keep the biggest and fold the rest into 'Other'.
+
+    `total` defaults to the sum of the weights; pass 100 for values that are already percentages.
+    """
+    total = total or sum(v for _, v in items) or 1
+    shown = [(n, v / total) for n, v in items[:limit] if v / total >= .005]
+    rest = 1 - sum(p for _, p in shown)
+    if rest >= .005:
+        shown.append(("Other", rest))
+    return shown
 
 
 # --------------------------------------------------------------------------------------
@@ -370,7 +450,6 @@ def contribution_stats(days: list[dict]) -> dict:
         "busiest_date": dates[busiest_idx],
         "busiest_count": counts[busiest_idx],
         "months": [(ym, per_month[ym]) for ym in months],
-        "last_date": last,
     }
 
 
@@ -406,7 +485,7 @@ def icon(card: Card, name: str, x: float, y: float, local: float, scale: float =
 # --------------------------------------------------------------------------------------
 
 def card_hero(start: float, static: bool) -> Card:
-    w, h = CARD_WIDTH, 230
+    w, h = CARD_WIDTH, 236
     c = Card("hero", w, h, start, static)
     c.frame(grid=True)
 
@@ -426,59 +505,76 @@ def card_hero(start: float, static: bool) -> Card:
     status = PROFILE["status"].upper()
     status_w = mono_width(status, 10, 2)
     pill_w = 14 + 7 + 9 + status_w + 14
-    px, py = x_for(pill_w), 32
+    px, py = x_for(pill_w), 30
     blink = "" if static else f"bl 2.5s ease-in-out {c.t(1)}s infinite"
     c.add(f'<g style="{c.anim("fu", .1, .6)}">'
           f'<rect x="{fmt(px)}" y="{py}" width="{fmt(pill_w)}" height="26" class="ln"/>'
           f'<circle cx="{fmt(px + 17.5)}" cy="{py + 13}" r="3.5" class="g" style="{c.anim("fi", .2, .3, extra=blink)}"/>'
           + c.label(px + 30, py + 17, status, cls="g") + "</g>")
 
-    # Name: "David" solid, "Frings" outlined in green and drawn stroke by stroke
+    # Name: first name solid, last name outlined in green and drawn stroke by stroke
     size, spacing = 54, -1
     first, last = PROFILE["first_name"], PROFILE["last_name"]
     full_w = mono_width(f"{first} {last}", size, spacing)
-    nx, ny = x_for(full_w), 124
+    nx, ny = x_for(full_w), 118
     lx = nx + (len(first) + 1) * (ADVANCE * size + spacing)
     c.add(c.text(nx, ny, first, size=size, weight=800, spacing=spacing, style=c.anim("fu", .25, .7)))
     outline = c.anim("ol", .45, 1.6, "ease-in-out") + ("" if static else "stroke-dasharray:320 0;")
     c.add(c.text(lx, ny, last, size=size, weight=800, spacing=spacing, cls="",
                  attrs=f' fill="none" stroke="{GREEN}" stroke-width="1.5"', style=outline))
 
-    # Tagline, typed out with SMIL (discrete steps keep the monospace rhythm)
-    tag = PROFILE["tagline"]
+    # Tagline lines, typed out one after another with SMIL (discrete steps keep the monospace rhythm)
+    lines = PROFILE["tagline"]
     tsize = 14
     adv = ADVANCE * tsize
-    tag_w = mono_width(tag, tsize)
-    tx, ty = x_for(tag_w), 172
-    if not centered:
-        max_chars = int((w - left - 230) / adv)
-        if len(tag) > max_chars:
-            print("warning: tagline is too long for the portrait layout", file=sys.stderr)
-    still = (c.text(tx, ty, tag, size=tsize, cls="dim")
-             + f'<rect x="{fmt(tx + tag_w + 4)}" y="{ty - 13}" width="8" height="16" class="g"/>')
+    line_y = [164 + 26 * i for i in range(len(lines))]
+    widths = [mono_width(text, tsize) for text, _ in lines]
+    xs = [x_for(lw) for lw in widths]
+    limit = (w - left - 230) if not centered else (w - 64)
+    for (text, _), lw in zip(lines, widths):
+        if lw > limit:
+            print(f"warning: tagline line {text!r} is too wide for the hero card", file=sys.stderr)
+
+    def cursor(x: float, y: float, style: str = "", inner: str = "") -> str:
+        style_attr = f' style="{style}"' if style else ""
+        return f'<rect x="{fmt(x)}" y="{fmt(y - 13)}" width="8" height="16" class="g"{style_attr}>{inner}</rect>'
+
+    still = "".join(c.text(x, y, text, size=tsize, cls=cls) for (text, cls), x, y in zip(lines, xs, line_y))
+    still += cursor(xs[-1] + widths[-1] + 4, line_y[-1])
     if static:
         c.add(still)
     else:
-        begin, step = c.t(.9), .028
-        n = len(tag)
-        total = begin + n * step
-        key_times = ["0"] + [f"{(begin + i * step) / total:.4f}" for i in range(1, n + 1)]
-        key_times[-1] = "1"
-        widths = ["0"] + [fmt(2 + i * adv) for i in range(1, n + 1)]
-        xs = [fmt(tx + 4)] + [fmt(tx + i * adv + 4) for i in range(1, n + 1)]
-        c.defs.append(
-            f'<clipPath id="type"><rect x="{fmt(tx - 2)}" y="{ty - 16}" width="{fmt(tag_w + 4)}" height="24">'
-            f'<animate attributeName="width" calcMode="discrete" dur="{total:.3f}s" fill="freeze" '
-            f'values="{";".join(widths)}" keyTimes="{";".join(key_times)}"/></rect></clipPath>')
+        begin, step, pause = c.t(.9), .028, .25
+        events = [(0.0, 0, 0)]  # (time, line index, characters typed on that line)
+        moment = begin
+        for li, (text, _) in enumerate(lines):
+            if li:
+                moment += pause
+            for ci in range(1, len(text) + 1):
+                moment += step
+                events.append((moment, li, ci))
+        total = moment
+        key_times = ";".join("0" if k == 0 else "1" if k == len(events) - 1 else f"{e[0] / total:.4f}"
+                             for k, e in enumerate(events))
+
+        def smil(attr: str, values: list[str]) -> str:
+            return (f'<animate attributeName="{attr}" calcMode="discrete" dur="{total:.3f}s" fill="freeze" '
+                    f'values="{";".join(values)}" keyTimes="{key_times}"/>')
+
+        animated = []
+        for li, ((text, cls), x, y, lw) in enumerate(zip(lines, xs, line_y, widths)):
+            clip_widths = [fmt(lw + 4) if e[1] > li else (fmt(2 + e[2] * adv) if e[1] == li and e[2] else "0")
+                           for e in events]
+            c.defs.append(f'<clipPath id="type{li}"><rect x="{fmt(x - 2)}" y="{y - 16}" width="{fmt(lw + 4)}" '
+                          f'height="24">{smil("width", clip_widths)}</rect></clipPath>')
+            animated.append(c.text(x, y, text, size=tsize, cls=cls, attrs=f' clip-path="url(#type{li})"'))
+        cursor_x = [fmt(xs[e[1]] + e[2] * adv + 4) for e in events]
+        cursor_y = [fmt(line_y[e[1]] - 13) for e in events]
         cursor_style = (f"animation:fi .3s ease {max(begin - .3, 0):.2f}s both, "
                         f"cb 1.1s step-end {total:.2f}s infinite;")
-        animated = (
-            c.text(tx, ty, tag, size=tsize, cls="dim", attrs=' clip-path="url(#type)"')
-            + f'<rect x="{fmt(tx + tag_w + 4)}" y="{ty - 13}" width="8" height="16" class="g" style="{cursor_style}">'
-            f'<animate attributeName="x" calcMode="discrete" dur="{total:.3f}s" fill="freeze" '
-            f'values="{";".join(xs)}" keyTimes="{";".join(key_times)}"/></rect>'
-        )
-        c.add(c.swap(animated, still))
+        animated.append(cursor(xs[-1] + widths[-1] + 4, line_y[-1], cursor_style,
+                               smil("x", cursor_x) + smil("y", cursor_y)))
+        c.add(c.swap("".join(animated), still))
 
     # Optional portrait on the right
     if portrait_path:
@@ -515,35 +611,20 @@ def card_activity(stats: dict, generated: dt.datetime, start: float, static: boo
     h = base + 52
     c = Card("activity", w, h, start, static)
     c.frame()
-
-    c.add(c.label(32, 44, "Contributions", cls="g", style=c.anim("fu", .1, .6))
-          + c.label(32 + mono_width("CONTRIBUTIONS ", 10, 2) + 2, 44, "/ last 12 months", style=c.anim("fu", .1, .6)))
-    as_of = f"as of {generated.day} {MONTHS[generated.month - 1]} {generated.year}"
-    c.add(c.label(w - 32, 44, as_of, anchor="end", style=c.anim("fi", .2, .6)))
+    c.header("Contributions", "last 12 months", f"as of {short_date(generated.date(), year=True)}")
 
     busiest = stats["busiest_date"]
-    blocks = [
+    c.stat_row([
         ("Total", f"{stats['total']:,}", "contributions"),
         ("Current streak", plural(stats["current_streak"], "day"), f"longest {plural(stats['longest_streak'], 'day')}"),
         ("Active days", f"{stats['active_days']:,}",
          f"of {stats['days']} · {round(100 * stats['active_days'] / max(stats['days'], 1))}%"),
         ("Busiest day", f"{MONTHS[busiest.month - 1]} {busiest.day}",
          f"{plural(stats['busiest_count'], 'contribution')} · {WEEKDAYS[busiest.weekday()]}"),
-    ]
-    col_w = (w - 64) / 4
-    for i, (label, value, sub) in enumerate(blocks):
-        x = 32 + i * col_w
-        d = .2 + i * .1
-        if i:
-            c.add(f'<path class="ln dr" pathLength="1" d="M{fmt(x - 16)} 70V140" style="{c.anim("dr", d, .5)}"/>')
-        c.add(c.label(x, 82, label, style=c.anim("fu", d, .6))
-              + c.text(x, 118, value, size=28, weight=800, cls="g" if i == 0 else "w", spacing=-.5,
-                       style=c.anim("fu", d + .05, .6))
-              + c.text(x, 140, sub, size=11, cls="mu", style=c.anim("fu", d + .1, .6)))
-
+    ])
     c.add(f'<path class="ln dr" pathLength="1" d="M32 164H{w - 32}" style="{c.anim("dr", .5, .8, "ease-in-out")}"/>')
 
-    # Monthly bars
+    # Monthly bars, grown with SMIL
     months = stats["months"]
     peak = max((v for _, v in months), default=0) or 1
     chart_h = base - top
@@ -562,8 +643,7 @@ def card_activity(stats: dict, generated: dt.datetime, start: float, static: boo
         by = base - bh
         fill = GREEN if value == peak else "url(#bar)"
         delay = c.t(.7 + i * .06)
-        dur = .8
-        total = delay + dur
+        total = delay + .8
         k = f"{delay / total:.4f}"
         rect = f'<rect x="{fmt(x)}" y="{fmt(by)}" width="{fmt(bar_w)}" height="{fmt(bh)}" fill="{fill}"'
         if bh:
@@ -584,6 +664,36 @@ def card_activity(stats: dict, generated: dt.datetime, start: float, static: boo
         if m == 1 or i == 0:
             c.add(c.text(cx, base + 34, str(y), size=9, cls="mu", anchor="middle", style=c.anim("fi", local, .4)))
     c.add(c.swap("".join(animated_bars), "".join(still_bars)))
+    return c
+
+
+def card_wakatime(waka: dict, start: float, static: bool) -> Card:
+    w = CARD_WIDTH
+    week = waka.get("last_7_days") or {}
+    langs = top_shares([(l["name"], l["percent"]) for l in week.get("languages", [])], total=100)
+    y_label, y_bar = 190, 204
+    h = (y_bar + 56) if langs else 176
+    c = Card("wakatime", w, h, start, static)
+    c.frame()
+
+    since = parse_date(waka["since"]) if waka.get("since") else None
+    c.header("WakaTime", "coding time", f"since {short_date(since, year=True)}" if since else "")
+
+    best = week.get("best_day") or {}
+    top_lang = langs[0] if langs and langs[0][0] != "Other" else None
+    c.stat_row([
+        ("All time", duration(waka.get("total_seconds", 0)), "tracked in editors"),
+        ("Last 7 days", duration(week.get("total_seconds", 0)),
+         f"avg {duration(week.get('daily_average', 0))} per day"),
+        ("Best day", duration(best.get("total_seconds", 0)) if best else "-",
+         f"{WEEKDAYS[parse_date(best['date']).weekday()]} {short_date(parse_date(best['date']))}" if best else "last 7 days"),
+        ("Top language", top_lang[0] if top_lang else "-",
+         f"{top_lang[1] * 100:.0f}% of last 7 days" if top_lang else "last 7 days"),
+    ])
+    if langs:
+        c.add(f'<path class="ln dr" pathLength="1" d="M32 164H{w - 32}" style="{c.anim("dr", .5, .8, "ease-in-out")}"/>')
+        c.add(c.label(32, y_label, "Languages / last 7 days", style=c.anim("fi", .6, .5)))
+        c.language_bar(langs, y_bar, y_bar + 30, .75)
     return c
 
 
@@ -642,111 +752,9 @@ def card_repo(repo: dict, index: int, generated: dt.datetime, start: float, stat
                   + c.text(tx + 8, y_topics + 14, topic, size=10, cls="g") + "</g>")
             tx += tw + 8
 
-    # Language mix in shades of the brand green
-    langs = repo.get("languages") or []
-    total = sum(l["size"] for l in langs) or 1
-    shown = [(l["name"], l["size"] / total) for l in langs[:4] if l["size"] / total >= .005]
-    rest = 1 - sum(p for _, p in shown)
-    if rest >= .005:
-        shown.append(("Other", rest))
-    shades = [1, .7, .48, .32, .2]
-    bar_x, bar_w = 32, w - 64
-    seg_x = bar_x
-    segments = []
-    for i, (lang, share) in enumerate(shown):
-        seg_w = bar_w * share
-        gap = 2 if i < len(shown) - 1 else 0
-        segments.append(f'<rect x="{fmt(seg_x)}" y="{y_bar}" width="{fmt(max(seg_w - gap, 1))}" height="6" '
-                        f'fill="{GREEN}" fill-opacity="{shades[i]}"/>')
-        seg_x += seg_w
-    c.add(f'<rect x="{bar_x}" y="{y_bar}" width="{bar_w}" height="6" fill="{WHITE}" fill-opacity=".05" '
-          f'style="{c.anim("fi", .4, .5)}"/>'
-          f'<g class="fb" style="{c.anim("gx", .55, 1.1, "cubic-bezier(.6,0,.2,1)")}">{"".join(segments)}</g>')
-
-    lx = 32
-    for i, (lang, share) in enumerate(shown):
-        pct = f"{share * 100:.1f}%"
-        c.add(f'<g style="{c.anim("fi", .9 + i * .08, .5)}">'
-              f'<rect x="{fmt(lx)}" y="{y_legend - 8}" width="8" height="8" fill="{GREEN}" fill-opacity="{shades[i]}"/>'
-              + c.text(lx + 14, y_legend, lang, size=11, cls="dim")
-              + c.text(lx + 14 + mono_width(lang + " ", 11), y_legend, pct, size=11, cls="mu") + "</g>")
-        lx += 14 + mono_width(f"{lang} {pct}", 11) + 22
-
-    if repo.get("pushed_at"):
-        c.add(c.text(w - 32, y_legend, f"updated {ago(parse_ts(repo['pushed_at']), generated)}", size=11,
-                     cls="mu", anchor="end", style=c.anim("fi", 1.1, .5)))
-    return c
-
-
-def card_graph(days: list[dict], stats: dict, start: float, static: bool) -> Card:
-    w = CARD_WIDTH
-    top = 82
-    first = parse_date(days[0]["date"])
-    offset = (first.weekday() + 1) % 7  # GitHub weeks start on Sunday
-    cols = (offset + len(days) - 1) // 7 + 1
-    grid_x = 66
-    pitch = min(14.0, (w - 32 - grid_x) / cols)
-    cell = pitch - 3
-    h = int(top + 7 * pitch + 58)
-    c = Card("graph", w, h, start, static)
-    c.frame()
-
-    c.add(c.label(32, 44, "Contribution graph", cls="g", style=c.anim("fu", .1, .6)))
-    c.add(c.label(w - 32, 44, f"{stats['total']:,} in the last year", anchor="end", style=c.anim("fi", .2, .6)))
-
-    colours = [blend(WHITE, BG2, .06)] + [blend(GREEN, BG2, a) for a in (.28, .5, .75, 1)]
-
-    for row, name in ((1, "Mon"), (3, "Wed"), (5, "Fri")):
-        c.add(c.text(32, top + row * pitch + cell - 1.5, name, size=9, cls="mu", style=c.anim("fi", .2, .5)))
-
-    reveal_start, reveal = .35, 1.4
-    if not static:
-        rules = [f".cl{{animation:pop .5s {EASE} both}}"]
-        rules += [f".k{i}{{animation-delay:{c.t(reveal_start + reveal * i / max(cols - 1, 1)):.3f}s}}"
-                  for i in range(cols)]
-        c.css.append("".join(rules))
-
-    cells, last_label_col = [], -10
-    for i, day in enumerate(days):
-        idx = offset + i
-        col, row = idx // 7, idx % 7
-        x, y = grid_x + col * pitch, top + row * pitch
-        cls = "" if static else f' class="cl fc k{col}"'
-        cells.append(f'<rect x="{fmt(x)}" y="{fmt(y)}" width="{fmt(cell)}" height="{fmt(cell)}" rx="2" '
-                     f'fill="{colours[max(0, min(4, day["level"]))]}"{cls}/>')
-        d = parse_date(day["date"])
-        if d.day == 1 and col - last_label_col >= 3 and col < cols - 1:
-            c.add(c.text(x, top - 10, MONTHS[d.month - 1], size=9, cls="mu",
-                         style=c.anim("fi", reveal_start + reveal * col / max(cols - 1, 1), .4)))
-            last_label_col = col
-    c.add("".join(cells))
-
-    # A scan line sweeps across while the columns pop in (SMIL)
-    if not static:
-        x0, x1 = grid_x - 3, grid_x + cols * pitch
-        a = c.t(reveal_start)
-        end = a + reveal
-        total = end + .4
-        k1, k2, k3 = a / total, (a + .1) / total, end / total
-        line = (f'<rect x="{x0}" y="{top - 3}" width="2" height="{fmt(7 * pitch + 3)}" fill="{GREEN}" opacity="0">'
-                f'<animate attributeName="x" values="{x0};{x0};{fmt(x1)};{fmt(x1)}" keyTimes="0;{k1:.4f};{k3:.4f};1" '
-                f'dur="{total:.3f}s" fill="freeze"/>'
-                f'<animate attributeName="opacity" values="0;0;.9;.9;0" keyTimes="0;{k1:.4f};{k2:.4f};{k3:.4f};1" '
-                f'dur="{total:.3f}s" fill="freeze"/></rect>')
-        c.add(c.swap(line, ""))
-
-    # Legend
-    ly = top + 7 * pitch + 30
-    x = w - 32 - mono_width("More", 10)
-    legend = [c.text(x, ly, "More", size=10, cls="mu")]
-    x -= 8 + 5 * 14
-    for i, colour in enumerate(colours):
-        legend.append(f'<rect x="{fmt(x + i * 14)}" y="{fmt(ly - 9.5)}" width="11" height="11" rx="2" fill="{colour}"/>')
-    x -= 8 + mono_width("Less", 10)
-    legend.append(c.text(x, ly, "Less", size=10, cls="mu"))
-    c.add(f'<g style="{c.anim("fi", reveal_start + reveal, .5)}">{"".join(legend)}</g>')
-    c.add(c.text(32, ly, f"{stats['active_days']} active days · longest streak {plural(stats['longest_streak'], 'day')}",
-                 size=10, cls="mu", style=c.anim("fi", reveal_start + reveal, .5)))
+    langs = top_shares([(l["name"], l["size"]) for l in repo.get("languages") or []], limit=4)
+    updated = f"updated {ago(parse_ts(repo['pushed_at']), generated)}" if repo.get("pushed_at") else ""
+    c.language_bar(langs, y_bar, y_legend, .55, updated)
     return c
 
 
@@ -805,15 +813,15 @@ def render() -> None:
     generated = parse_ts(data["generated_at"])
     stats = contribution_stats(data["days"])
     repos = {r["name_with_owner"].lower(): r for r in data.get("repos", [])}
+    tagline = " · ".join(text for text, _ in PROFILE["tagline"])
 
     # Page-wide timeline: each card starts a little after the one above it.
     t = 0.0
     entries: list[tuple[Card, dict]] = []
 
-    hero = card_hero(t, static)
-    entries.append((hero, {"kind": "full", "width": "100%",
-                           "alt": f"{PROFILE['first_name']} {PROFILE['last_name']} - {PROFILE['tagline']}"}))
-    t += .9
+    entries.append((card_hero(t, static), {"kind": "full", "width": "100%",
+                                           "alt": f"{PROFILE['first_name']} {PROFILE['last_name']} - {tagline}"}))
+    t += 1.1
     for tile in tiles():
         entries.append((card_tile(tile, t, static),
                         {"kind": "tile", "width": "32.5%", "href": tile["href"],
@@ -827,19 +835,28 @@ def render() -> None:
                 f"{plural(stats['current_streak'], 'day')}, {stats['active_days']} active days, busiest day "
                 f"{busiest.isoformat()} with {plural(stats['busiest_count'], 'contribution')}.")}))
     t += .9
+
+    waka = data.get("wakatime")
+    if waka:
+        week = waka.get("last_7_days") or {}
+        entries.append((card_wakatime(waka, t, static), {
+            "kind": "full", "width": "100%", "href": WAKATIME_PROFILE,
+            "alt": (f"WakaTime: {duration(waka.get('total_seconds', 0))} coded in total, "
+                    f"{duration(week.get('total_seconds', 0))} in the last 7 days.")}))
+        t += .6
+    else:
+        print("warning: no WakaTime data, skipping the WakaTime card", file=sys.stderr)
+
     for i, full_name in enumerate(FEATURED_REPOS):
         repo = repos.get(full_name.lower())
         if not repo:
             print(f"warning: {full_name} missing from {DATA_FILE.name}; run fetch", file=sys.stderr)
             continue
-        card = card_repo(repo, i, generated, t, static)
         desc = repo.get("description") or REPO_FALLBACK_DESCRIPTIONS.get(full_name, "")
-        entries.append((card, {"kind": "full", "width": "100%", "href": repo["url"],
-                               "alt": f"{full_name}: {desc}".strip(": ")}))
+        entries.append((card_repo(repo, i, generated, t, static),
+                        {"kind": "full", "width": "100%", "href": repo["url"],
+                         "alt": f"{full_name}: {desc}".strip(": ")}))
         t += .3
-    entries.append((card_graph(data["days"], stats, t, static),
-                    {"kind": "full", "width": "100%",
-                     "alt": f"Contribution graph: {stats['total']} contributions in the last year"}))
 
     written = set()
     for card, meta in entries:
@@ -901,7 +918,7 @@ fragment Repo on Repository {
 LEVELS = {"NONE": 0, "FIRST_QUARTILE": 1, "SECOND_QUARTILE": 2, "THIRD_QUARTILE": 3, "FOURTH_QUARTILE": 4}
 
 
-def fetch() -> None:
+def fetch_github() -> dict:
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if not token:
         sys.exit("set GH_TOKEN (a token with read:user scope to include private contributions)")
@@ -933,17 +950,94 @@ def fetch() -> None:
             "topics": [n["topic"]["name"] for n in r["repositoryTopics"]["nodes"]],
             "languages": [{"name": e["node"]["name"], "size": e["size"]} for e in r["languages"]["edges"]],
         })
+    print(f"GitHub: {len(days)} days, {calendar['totalContributions']} contributions, {len(repos)} repos")
+    return {"total": calendar["totalContributions"], "days": days, "repos": repos}
 
+
+def http_get(url: str, headers: dict | None = None) -> tuple[int, bytes]:
+    request = urllib.request.Request(url, headers={"User-Agent": "profile-cards", **(headers or {})})
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return response.status, response.read()
+    except urllib.error.HTTPError as err:
+        return err.code, err.read()
+
+
+def parse_badge_duration(text: str) -> int | None:
+    """'1,234 hrs 5 mins' -> seconds."""
+    total, found = 0, False
+    for amount, unit in re.findall(r"([\d,]+)\s*(hr|min|sec)", text):
+        found = True
+        total += int(amount.replace(",", "")) * {"hr": 3600, "min": 60, "sec": 1}[unit]
+    return total if found else None
+
+
+def fetch_wakatime(previous: dict | None) -> dict | None:
+    """All-time total and the last 7 days from WakaTime.
+
+    WakaTime answers 202 with zeros while it recalculates stats, so the all-time total
+    is read from the public badge (always current) and the weekly stats are retried;
+    anything that still fails keeps the previous values.
+    """
+    key = os.environ.get("WAKATIME_API_KEY")
+    user = "current" if key else WAKATIME_USER_ID
+    headers = {"Authorization": "Basic " + base64.b64encode(key.encode()).decode()} if key else {}
+    waka = dict(previous or {})
+    waka["profile_url"] = WAKATIME_PROFILE
+
+    status, body = http_get(f"https://wakatime.com/badge/user/{WAKATIME_USER_ID}.svg")
+    seconds = parse_badge_duration(" ".join(re.findall(r"<text[^>]*>([^<]+)</text>", body.decode("utf-8", "replace"))))
+    if status == 200 and seconds is not None:
+        waka["total_seconds"] = seconds
+    else:
+        print(f"warning: WakaTime badge unavailable (HTTP {status}), keeping the previous total", file=sys.stderr)
+
+    status, body = http_get(f"https://wakatime.com/api/v1/users/{user}/all_time_since_today", headers)
+    if status in (200, 202):
+        start = (json.loads(body).get("data", {}).get("range") or {}).get("start_date")
+        if start:
+            waka["since"] = start
+
+    for attempt in range(6):
+        status, body = http_get(f"https://wakatime.com/api/v1/users/{user}/stats/last_7_days", headers)
+        data = json.loads(body).get("data", {}) if status in (200, 202) else {}
+        if status == 200 and data.get("is_up_to_date"):
+            best = data.get("best_day") or {}
+            waka["last_7_days"] = {
+                "total_seconds": round(data.get("total_seconds", 0)),
+                "daily_average": round(data.get("daily_average", 0)),
+                "best_day": {"date": best["date"], "total_seconds": round(best["total_seconds"])} if best.get("date") else None,
+                "languages": [{"name": l["name"], "percent": l["percent"]} for l in data.get("languages", [])[:8]],
+            }
+            break
+        if attempt < 5:
+            time.sleep(10)
+    else:
+        print(f"warning: WakaTime weekly stats not ready (HTTP {status}), keeping the previous values", file=sys.stderr)
+
+    if "total_seconds" not in waka:
+        return None
+    print(f"WakaTime: {duration(waka['total_seconds'])} total")
+    return waka
+
+
+def fetch() -> None:
+    previous = json.loads(DATA_FILE.read_text(encoding="utf-8")) if DATA_FILE.exists() else {}
     out = {
         "login": PROFILE["login"],
         "generated_at": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
-        "source": "GitHub GraphQL API",
-        "total": calendar["totalContributions"],
-        "days": days,
-        "repos": repos,
+        "source": "GitHub GraphQL API, WakaTime",
+        **fetch_github(),
     }
+    try:
+        waka = fetch_wakatime(previous.get("wakatime"))
+    except (urllib.error.URLError, json.JSONDecodeError, TimeoutError) as err:
+        print(f"warning: WakaTime fetch failed ({err}), keeping the previous values", file=sys.stderr)
+        waka = previous.get("wakatime")
+    if waka:
+        out["wakatime"] = waka
     write_data(out)
-    print(f"{DATA_FILE.relative_to(ROOT)}: {len(days)} days, {out['total']} contributions, {len(repos)} repos")
+    print(f"wrote {DATA_FILE.relative_to(ROOT)}")
 
 
 def write_data(data: dict) -> None:

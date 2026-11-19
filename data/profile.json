@@ -1,7 +1,7 @@
 {
   "login": "DavidFrings",
   "generated_at": "2026-11-19T10:05:00Z",
-  "source": "seed (public contribution page)",
+  "source": "seed (public GitHub contribution page, public WakaTime badge and stats)",
   "total": 191,
   "days": [
     {"date": "2025-11-16", "count": 0, "level": 0},
@@ -466,5 +466,52 @@
         }
       ]
     }
-  ]
+  ],
+  "wakatime": {
+    "profile_url": "https://wakatime.com/@f2ca40d4-dfbb-4764-9e49-8c1a7f94b14a",
+    "total_seconds": 1381680,
+    "since": "2024-07-14",
+    "last_7_days": {
+      "total_seconds": 13524,
+      "daily_average": 4508,
+      "best_day": {
+        "date": "2026-11-12",
+        "total_seconds": 8488
+      },
+      "languages": [
+        {
+          "name": "Markdown",
+          "percent": 53.12
+        },
+        {
+          "name": "TOML",
+          "percent": 16.26
+        },
+        {
+          "name": "Python",
+          "percent": 5.9
+        },
+        {
+          "name": "Rust",
+          "percent": 5.06
+        },
+        {
+          "name": "Text",
+          "percent": 4.52
+        },
+        {
+          "name": "YAML",
+          "percent": 3.39
+        },
+        {
+          "name": "Java",
+          "percent": 2.31
+        },
+        {
+          "name": "JavaScript",
+          "percent": 1.95
+        }
+      ]
+    }
+  }
 }
